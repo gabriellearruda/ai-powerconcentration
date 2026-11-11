@@ -181,10 +181,6 @@
   .combo { margin-top: 44px; padding-top: 36px; border-top: 1px solid var(--line); }
   .combo-head { font-family: "Newsreader", serif; font-size: 22px; font-weight: 600; }
   .combo-lead { font: 400 15px/1.6 "Inter", sans-serif; color: var(--muted); margin-top: 8px; max-width: 56ch; }
-  .combo-viz { margin: 26px auto 0; max-width: 520px; }
-  .combo-viz svg { width: 100%; height: auto; display: block; overflow: visible; }
-  .cv-in circle { fill: var(--surface); stroke: var(--line); stroke-width: 2; }
-  .cv-in .cv-ic { color: var(--muted); }
   .cv-out circle { fill: color-mix(in srgb, var(--accent) 12%, var(--surface)); stroke: var(--accent); stroke-width: 2.5; }
   .cv-out .cv-ic { color: var(--accent); }
   .cv-ic { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; }
@@ -370,18 +366,25 @@
         <h2 class="title" id="mech-title"></h2>
         <div class="prose"><p id="mech-lead"></p></div>
         <div class="mechviz">
-          <svg viewBox="0 -40 400 270" aria-hidden="true">
+          <svg viewBox="0 -40 400 430" aria-hidden="true">
             <defs>
               <marker id="mv-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
                 <path d="M0,0 L10,5 L0,10 z" fill="var(--line)"></path>
+              </marker>
+              <marker id="conv-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="color-mix(in srgb, var(--accent) 45%, var(--line))"></path>
               </marker>
             </defs>
             <path class="mv-arrow" d="M 118,34 Q 200,-26 282,34" marker-end="url(#mv-arrow)"></path>
             <path class="mv-arrow" d="M 295,64 Q 258,146 214,166" marker-end="url(#mv-arrow)"></path>
             <path class="mv-arrow" d="M 186,166 Q 142,146 105,64" marker-end="url(#mv-arrow)"></path>
+            <path class="cv-arrow" d="M 86,74 Q 48,230 163,314" marker-end="url(#conv-arrow)"></path>
+            <path class="cv-arrow" d="M 200,210 L 200,286" marker-end="url(#conv-arrow)"></path>
+            <path class="cv-arrow" d="M 314,74 Q 352,230 237,314" marker-end="url(#conv-arrow)"></path>
             <g class="mv-node" data-i="0" transform="translate(90,36)"><circle r="36"></circle><foreignObject x="-14" y="-14" width="28" height="28"><div class="mv-ic" id="mv-ic-0"></div></foreignObject></g>
             <g class="mv-node" data-i="1" transform="translate(310,36)"><circle r="36"></circle><foreignObject x="-14" y="-14" width="28" height="28"><div class="mv-ic" id="mv-ic-1"></div></foreignObject></g>
             <g class="mv-node" data-i="2" transform="translate(200,172)"><circle r="36"></circle><foreignObject x="-14" y="-14" width="28" height="28"><div class="mv-ic" id="mv-ic-2"></div></foreignObject></g>
+            <g class="cv-out" transform="translate(200,358)"><circle r="40"></circle><foreignObject x="-16" y="-16" width="32" height="32"><div class="cv-ic" id="cv-ic-out"></div></foreignObject></g>
           </svg>
           <div class="mv-labels ui" id="mv-labels" role="tablist" aria-label="Mecanismos"></div>
         </div>
@@ -392,22 +395,6 @@
         <div class="combo">
           <div class="combo-head" id="combo-title"></div>
           <p class="combo-lead" id="combo-lead"></p>
-          <div class="combo-viz">
-            <svg viewBox="0 0 400 210" aria-hidden="true">
-              <defs>
-                <marker id="cv-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                  <path d="M0,0 L10,5 L0,10 z" fill="color-mix(in srgb, var(--accent) 45%, var(--line))"></path>
-                </marker>
-              </defs>
-              <path class="cv-arrow" d="M 80,62 Q 140,120 172,148" marker-end="url(#cv-arrow)"></path>
-              <path class="cv-arrow" d="M 200,64 L 200,140" marker-end="url(#cv-arrow)"></path>
-              <path class="cv-arrow" d="M 320,62 Q 260,120 228,148" marker-end="url(#cv-arrow)"></path>
-              <g class="cv-in" transform="translate(80,34)"><circle r="30"></circle><foreignObject x="-13" y="-13" width="26" height="26"><div class="cv-ic" id="cv-ic-0"></div></foreignObject></g>
-              <g class="cv-in" transform="translate(200,34)"><circle r="30"></circle><foreignObject x="-13" y="-13" width="26" height="26"><div class="cv-ic" id="cv-ic-1"></div></foreignObject></g>
-              <g class="cv-in" transform="translate(320,34)"><circle r="30"></circle><foreignObject x="-13" y="-13" width="26" height="26"><div class="cv-ic" id="cv-ic-2"></div></foreignObject></g>
-              <g class="cv-out" transform="translate(200,182)"><circle r="40"></circle><foreignObject x="-16" y="-16" width="32" height="32"><div class="cv-ic" id="cv-ic-out"></div></foreignObject></g>
-            </svg>
-          </div>
           <div class="combo-steps" id="combo-steps"></div>
           <div class="combo-result" id="combo-result"></div>
         </div>
@@ -1024,7 +1011,6 @@ document.querySelectorAll(".mv-node").forEach(n => {
   document.getElementById("mv-ic-" + i).innerHTML = ICON[mvIcons[i]];
   n.addEventListener("click", () => { activeMech = i; paintMech(); });
 });
-["robot", "funnel", "chain"].forEach((k, i) => { document.getElementById("cv-ic-" + i).innerHTML = ICON[k]; });
 document.getElementById("cv-ic-out").innerHTML = ICON.lock;
 
 function paintMech() {
