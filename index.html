@@ -168,8 +168,14 @@
   .mv-node.active .mv-ic { color: var(--accent); }
   .mv-node { cursor: pointer; }
   .mv-labels { display: flex; justify-content: space-between; gap: 8px; margin-top: 14px; }
-  .mv-labels button { flex: 1; min-width: 0; font: 700 12px/1.3 "Inter", sans-serif; color: var(--muted); background: none; border: 0; border-radius: 9px; padding: 7px 4px; cursor: pointer; transition: color .2s ease, background .2s ease; }
-  .mv-labels button.active { color: var(--accent); background: color-mix(in srgb, var(--accent) 9%, transparent); }
+  .mv-labels button { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; font: 700 12px/1.3 "Inter", sans-serif; color: var(--muted); background: none; border: 0; border-radius: 11px; padding: 10px 4px 12px; cursor: pointer; transition: color .2s ease, background .2s ease; }
+  .mv-labels .mvl-ic { width: 30px; height: 30px; border-radius: 9px; background: color-mix(in srgb, var(--muted) 14%, transparent); color: var(--muted); display: flex; align-items: center; justify-content: center; transition: background .2s ease, color .2s ease; }
+  .mv-labels .mvl-ic svg { width: 16px; height: 16px; }
+  .mv-labels button.active { color: var(--accent); background: color-mix(in srgb, var(--accent) 7%, transparent); }
+  .mv-labels button.active .mvl-ic { background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--accent); }
+  .mech-panel .mp-head { display: flex; align-items: center; gap: 14px; }
+  .mech-panel .mp-ic { flex: none; width: 42px; height: 42px; border-radius: 12px; background: color-mix(in srgb, var(--accent) 13%, transparent); color: var(--accent); display: flex; align-items: center; justify-content: center; }
+  .mech-panel .mp-ic svg { width: 22px; height: 22px; }
 
   /* Combo: convergence diagram showing the 3 mechanisms compounding into a takeover */
   .combo { margin-top: 44px; padding-top: 36px; border-top: 1px solid var(--line); }
@@ -924,10 +930,13 @@ function render(l) {
   set("mech-lead", d.mech.lead);
   const mvLabels = document.getElementById("mv-labels"); mvLabels.innerHTML = "";
   d.mech.items.forEach((it, i) => {
-    const btn = el("button", null, it.title);
+    const btn = el("button");
     btn.type = "button";
     btn.setAttribute("role", "tab");
     btn.setAttribute("aria-selected", i === activeMech ? "true" : "false");
+    const bic = el("div", "mvl-ic"); bic.innerHTML = ICON[mvIcons[i]];
+    btn.appendChild(bic);
+    btn.appendChild(el("span", null, it.title));
     btn.addEventListener("click", () => { activeMech = i; paintMech(); });
     mvLabels.appendChild(btn);
   });
@@ -1009,7 +1018,7 @@ function render(l) {
   document.querySelectorAll(".langs button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === l ? "true" : "false"));
 }
 
-const mvIcons = ["econ", "epistemic", "stakes"];
+const mvIcons = ["robot", "funnel", "chain"];
 document.querySelectorAll(".mv-node").forEach(n => {
   const i = Number(n.dataset.i);
   document.getElementById("mv-ic-" + i).innerHTML = ICON[mvIcons[i]];
@@ -1022,7 +1031,11 @@ function paintMech() {
   const it = C[lang].mech.items[activeMech];
   const panel = document.getElementById("mech-panel");
   panel.innerHTML = "";
-  panel.appendChild(el("h3", null, it.title));
+  const head = el("div", "mp-head");
+  const mpic = el("div", "mp-ic"); mpic.innerHTML = ICON[mvIcons[activeMech]];
+  head.appendChild(mpic);
+  head.appendChild(el("h3", null, it.title));
+  panel.appendChild(head);
   panel.appendChild(el("p", null, it.body));
   const ex = el("div", "ex"); ex.innerHTML = it.ex; panel.appendChild(ex);
   document.querySelectorAll(".mv-node").forEach(n => n.classList.toggle("active", Number(n.dataset.i) === activeMech));
