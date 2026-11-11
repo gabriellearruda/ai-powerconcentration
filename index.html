@@ -1,0 +1,1083 @@
+<title>A IA concentrando o poder na mão de poucos</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  /* Longform editorial treatment: full-bleed animated hero, narrow serif reading column, sticky masthead + section nav with scrollspy, reading-progress bar. Ink-on-paper with an oxblood editorial accent. */
+  :root {
+    --bg: #f1efe8;
+    --surface: #ffffff;
+    --surface-2: #e8e4db;
+    --ink: #191712;
+    --muted: #6a655b;
+    --line: #ddd8ce;
+    --accent: #a8301e;
+    --accent-2: #2b5872;
+    --ok: #3a7d53;
+    --watch: #b57d22;
+    --risk: #a02a1c;
+    --shadow: 0 1px 2px rgba(26,25,21,.05), 0 10px 30px rgba(26,25,21,.06);
+    --read: 680px;
+    --wide: 1080px;
+    font-synthesis-weight: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #13120f;
+      --surface: #1b1a16;
+      --surface-2: #211f1a;
+      --ink: #ecebe5;
+      --muted: #a39d92;
+      --line: #2c2a24;
+      --accent: #e46a56;
+      --accent-2: #8fbae6;
+      --ok: #5cbe87;
+      --watch: #e0ad4e;
+      --risk: #e46a56;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 34px rgba(0,0,0,.4);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #13120f;
+    --surface: #1b1a16;
+    --surface-2: #211f1a;
+    --ink: #ecebe5;
+    --muted: #a39d92;
+    --line: #2c2a24;
+    --accent: #e46a56;
+    --accent-2: #8fbae6;
+    --ok: #5cbe87;
+    --watch: #e0ad4e;
+    --risk: #e46a56;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 34px rgba(0,0,0,.4);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Newsreader", Georgia, "Times New Roman", serif;
+    font-size: 19px;
+    line-height: 1.68;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0 0 auto;
+    height: env(safe-area-inset-top, 0px);
+    background: var(--surface);
+    z-index: 60;
+  }
+  h1, h2, h3 { line-height: 1.1; margin: 0; text-wrap: balance; }
+  p { margin: 0; }
+  .ui { font-family: "Inter", system-ui, -apple-system, sans-serif; }
+
+  .gutter { padding-left: max(22px, env(safe-area-inset-left, 0px)); padding-right: max(22px, env(safe-area-inset-right, 0px)); }
+
+  /* Masthead */
+  header.mast {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 50;
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    backdrop-filter: saturate(1.3) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .mast-row {
+    max-width: var(--wide); margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding-block: 12px;
+  }
+  .wordmark { display: flex; align-items: center; gap: 10px; background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink); text-align: left; min-width: 0; }
+  .wordmark .mk { width: 22px; height: 22px; flex: none; }
+  .wordmark b { font-family: "Inter", sans-serif; font-weight: 800; font-size: 14px; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .langs { display: flex; gap: 2px; background: var(--surface-2); border-radius: 999px; padding: 3px; flex: none; }
+  .langs button { font: 700 11.5px/1 "Inter", sans-serif; letter-spacing: .04em; color: var(--muted); background: transparent; border: 0; border-radius: 999px; padding: 7px 11px; cursor: pointer; }
+  .langs button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+
+  nav.toc {
+    position: sticky;
+    top: calc(env(safe-area-inset-top, 0px) + 47px);
+    z-index: 49;
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    backdrop-filter: saturate(1.3) blur(10px);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .toc-inner { max-width: var(--wide); margin: 0 auto; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; padding-block: 2px; }
+  .toc-inner::-webkit-scrollbar { display: none; }
+  .toc-inner a { font: 600 12.5px/1 "Inter", sans-serif; color: var(--muted); text-decoration: none; white-space: nowrap; padding: 12px 14px; border-bottom: 2px solid transparent; }
+  .toc-inner a.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--accent); z-index: 51; transition: width .08s linear; }
+
+  /* Hero (committed dark band, own world) */
+  .hero { position: relative; isolation: isolate; min-height: clamp(440px, 72vh, 660px); display: flex; align-items: flex-end; background: #0d0c0a; overflow: hidden; }
+  .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; display: block; }
+  .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(13,12,10,.15) 0%, rgba(13,12,10,.45) 55%, rgba(13,12,10,.9) 100%); }
+  .hero-inner { max-width: var(--wide); margin: 0 auto; width: 100%; padding-block: 48px; }
+  .hero-box { max-width: 760px; }
+  .hero .kicker { font: 800 12px/1.4 "Inter", sans-serif; letter-spacing: .18em; text-transform: uppercase; color: #ec7b6b; margin-bottom: 20px; }
+  .hero h1 { color: #f6f3ee; font-size: clamp(36px, 6.4vw, 66px); font-weight: 600; letter-spacing: -.02em; }
+  .hero .dek { color: #d9d4cb; font-size: clamp(18px, 2.4vw, 23px); line-height: 1.45; margin-top: 22px; max-width: 46ch; font-weight: 400; }
+  .byline { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 26px; font: 600 13px/1.4 "Inter", sans-serif; color: #b4aea3; }
+  .byline span { display: inline-flex; align-items: center; gap: 7px; }
+  .byline .dotsep { width: 4px; height: 4px; border-radius: 50%; background: #6a665e; align-self: center; }
+
+  /* Article */
+  article { display: block; }
+  .band { border-bottom: 1px solid var(--line); }
+  .col { max-width: var(--read); margin: 0 auto; padding-block: 52px; }
+  .col.wide { max-width: var(--wide); }
+  section[id] { scroll-margin-top: 110px; }
+
+  .eyebrow { font: 800 12px/1.4 "Inter", sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  h2.title { font-size: clamp(27px, 4.2vw, 38px); font-weight: 600; letter-spacing: -.02em; }
+  .prose { margin-top: 20px; display: flex; flex-direction: column; gap: 18px; }
+  .prose p { font-size: 19px; }
+  .prose p.first::first-letter { font-size: 3.1em; line-height: .82; float: left; margin: 7px 11px 0 0; color: var(--accent); font-weight: 600; }
+
+  .pullquote { margin: 30px 0 6px; padding-left: 22px; border-left: 3px solid var(--accent); }
+  .pullquote p { font-size: clamp(20px, 2.8vw, 25px); font-style: italic; line-height: 1.4; color: var(--ink); }
+  .pullquote cite { display: block; margin-top: 12px; font: 600 13px/1.4 "Inter", sans-serif; font-style: normal; color: var(--muted); }
+
+  /* Takeaway cards */
+  .take { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 10px; }
+  .tk { background: var(--surface); border: 1px solid var(--line); border-radius: 15px; padding: 22px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 14px; }
+  .tk .icwrap { width: 42px; height: 42px; border-radius: 11px; background: color-mix(in srgb, var(--accent) 13%, transparent); display: grid; place-items: center; }
+  .tk .ic { width: 21px; height: 21px; color: var(--accent); }
+  .tk h3 { font: 700 16px/1.3 "Inter", sans-serif; }
+  .tk p { font: 400 14.5px/1.55 "Inter", sans-serif; color: var(--muted); }
+
+  /* Mechanisms as interactive tabs */
+  .mech { margin-top: 8px; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow); }
+  .mech-panel { padding: 28px 30px 30px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  .mech-panel h3 { font-family: "Newsreader", serif; font-size: 24px; font-weight: 600; }
+  .mech-panel p { font-size: 17px; color: var(--muted); line-height: 1.6; }
+  .mech-panel .ex { font: 500 14px/1.5 "Inter", sans-serif; color: var(--ink); background: var(--surface-2); border-radius: 10px; padding: 13px 15px; }
+  .mech-panel .ex b { color: var(--accent); }
+
+  /* Mechanisms: reinforcing-loop diagram */
+  .mechviz { margin: 30px auto 0; max-width: 480px; }
+  .mechviz svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .mechviz .mv-arrow { fill: none; stroke: var(--line); stroke-width: 2; }
+  .mv-node circle { fill: var(--surface); stroke: var(--line); stroke-width: 2; transition: stroke .2s ease, fill .2s ease; }
+  .mv-node .mv-ic { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; color: var(--muted); transition: color .2s ease; }
+  .mv-node .mv-ic svg { width: 22px; height: 22px; }
+  .mv-node.active circle { stroke: var(--accent); fill: color-mix(in srgb, var(--accent) 11%, var(--surface)); }
+  .mv-node.active .mv-ic { color: var(--accent); }
+  .mv-node { cursor: pointer; }
+  .mv-labels { display: flex; justify-content: space-between; gap: 8px; margin-top: 14px; }
+  .mv-labels button { flex: 1; min-width: 0; font: 700 12px/1.3 "Inter", sans-serif; color: var(--muted); background: none; border: 0; border-radius: 9px; padding: 7px 4px; cursor: pointer; transition: color .2s ease, background .2s ease; }
+  .mv-labels button.active { color: var(--accent); background: color-mix(in srgb, var(--accent) 9%, transparent); }
+
+  /* Combo: convergence diagram showing the 3 mechanisms compounding into a takeover */
+  .combo { margin-top: 44px; padding-top: 36px; border-top: 1px solid var(--line); }
+  .combo-head { font-family: "Newsreader", serif; font-size: 22px; font-weight: 600; }
+  .combo-lead { font: 400 15px/1.6 "Inter", sans-serif; color: var(--muted); margin-top: 8px; max-width: 56ch; }
+  .combo-viz { margin: 26px auto 0; max-width: 520px; }
+  .combo-viz svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .cv-in circle { fill: var(--surface); stroke: var(--line); stroke-width: 2; }
+  .cv-in .cv-ic { color: var(--muted); }
+  .cv-out circle { fill: color-mix(in srgb, var(--accent) 12%, var(--surface)); stroke: var(--accent); stroke-width: 2.5; }
+  .cv-out .cv-ic { color: var(--accent); }
+  .cv-ic { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; }
+  .cv-ic svg { width: 20px; height: 20px; }
+  .cv-out .cv-ic svg { width: 24px; height: 24px; }
+  .cv-arrow { fill: none; stroke: color-mix(in srgb, var(--accent) 45%, var(--line)); stroke-width: 2; }
+  .combo-steps { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+  .combo-steps div { display: flex; gap: 12px; align-items: baseline; font: 400 15px/1.55 "Inter", sans-serif; color: var(--muted); }
+  .combo-steps span { flex: none; width: 20px; height: 20px; border-radius: 50%; background: color-mix(in srgb, var(--accent-2) 16%, transparent); color: var(--accent-2); font: 800 11px/20px "Inter", sans-serif; text-align: center; }
+  .combo-result { margin-top: 18px; background: color-mix(in srgb, var(--accent) 8%, var(--surface)); border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line)); border-radius: 13px; padding: 18px 20px; font: 500 15.5px/1.6 "Inter", sans-serif; color: var(--ink); }
+  .combo-result b { color: var(--accent); }
+
+  /* Coup factor cards */
+  .factors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 26px; }
+  .fac { background: var(--surface); border: 1px solid var(--line); border-radius: 15px; padding: 22px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; }
+  .fac .ic { width: 30px; height: 30px; color: var(--accent-2); }
+  .fac .n { font: 800 11px/1 "Inter", sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+  .fac h3 { font-family: "Newsreader", serif; font-size: 20px; font-weight: 600; }
+  .fac p { font: 400 14px/1.55 "Inter", sans-serif; color: var(--muted); }
+  .note { margin-top: 18px; font: 400 15px/1.6 "Inter", sans-serif; color: var(--muted); background: var(--surface-2); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; padding: 15px 18px; }
+
+  /* Scenario vertical timeline with concentration meter */
+  .timeline { margin-top: 30px; margin-left: 8px; }
+  .tl-item { position: relative; padding: 0 0 34px 36px; border-left: 2px solid var(--line); }
+  .tl-item:last-child { border-left-color: transparent; padding-bottom: 4px; }
+  .tl-node { position: absolute; left: -10px; top: 0; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 5px var(--bg), 0 0 0 6px var(--line); }
+  .tl-year { font: 800 14px/1 "Inter", sans-serif; letter-spacing: .08em; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .tl-head { font-family: "Newsreader", serif; font-size: 23px; font-weight: 600; margin-top: 9px; letter-spacing: -.01em; }
+  .tl-body { font: 400 16px/1.62 "Inter", sans-serif; color: var(--muted); margin-top: 9px; max-width: 54ch; }
+  .tl-meter { margin-top: 16px; max-width: 360px; }
+  .tl-meter .mhead { display: flex; justify-content: space-between; align-items: baseline; font: 700 10.5px/1 "Inter", sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
+  .tl-meter .mhead b { color: var(--accent); font-weight: 800; }
+  .tl-meter .track { height: 9px; border-radius: 999px; background: var(--surface-2); overflow: hidden; border: 1px solid var(--line); }
+  .tl-meter .fill { height: 100%; border-radius: 999px; width: 0; background: linear-gradient(90deg, var(--accent-2), var(--accent)); transition: width 1s cubic-bezier(.4,0,.2,1); }
+  .disclaim { margin-top: 18px; font-size: 14px; color: var(--muted); font-style: italic; }
+
+  /* Trends figure */
+  .figtag { font: 800 11.5px/1.4 "Inter", sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .ind { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 24px; }
+  .tile { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 9px; box-shadow: var(--shadow); }
+  .tile .lbl { font: 500 13px/1.4 "Inter", sans-serif; color: var(--muted); min-height: 2.8em; }
+  .tile .val { font: 800 29px/1 "Inter", sans-serif; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .tile .cap { font: 400 12.5px/1.45 "Inter", sans-serif; color: var(--muted); }
+  .pill { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; font: 700 10.5px/1 "Inter", sans-serif; letter-spacing: .05em; text-transform: uppercase; padding: 5px 9px; border-radius: 999px; }
+  .pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .pill.ok { color: var(--ok); background: color-mix(in srgb, var(--ok) 16%, transparent); }
+  .pill.watch { color: var(--watch); background: color-mix(in srgb, var(--watch) 18%, transparent); }
+  .pill.risk { color: var(--risk); background: color-mix(in srgb, var(--risk) 16%, transparent); }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 20px; font: 500 12.5px/1.4 "Inter", sans-serif; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .legend i { width: 9px; height: 9px; border-radius: 50%; }
+
+  /* Comparison */
+  .cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+  .cmp .cc { background: var(--surface); border: 1px solid var(--line); border-radius: 15px; padding: 22px; box-shadow: var(--shadow); }
+  .cmp .cc .tag { font: 800 11px/1 "Inter", sans-serif; letter-spacing: .1em; text-transform: uppercase; color: #fff; background: var(--accent); display: inline-block; padding: 5px 9px; border-radius: 6px; margin-bottom: 12px; }
+  .cmp .cc:nth-child(2) .tag { background: var(--accent-2); }
+  .cmp .cc h3 { font-family: "Newsreader", serif; font-size: 20px; font-weight: 600; }
+  .cmp .cc p { font: 400 15px/1.55 "Inter", sans-serif; color: var(--muted); margin-top: 11px; }
+  .verdict { margin-top: 18px; background: var(--surface-2); border-radius: 13px; padding: 20px 22px; font-size: 18px; line-height: 1.55; }
+  .verdict b { color: var(--accent); font-weight: 600; }
+
+  /* Actions: editorial numbered list, not cards */
+  .acts { margin-top: 8px; }
+  .act { display: grid; grid-template-columns: 56px 1fr; gap: 18px; align-items: start; padding: 24px 0; border-top: 1px solid var(--line); }
+  .act:last-child { border-bottom: 1px solid var(--line); }
+  .act .mk { font-family: "Newsreader", serif; font-size: 30px; font-weight: 500; color: var(--accent); line-height: 1; font-variant-numeric: tabular-nums; }
+  .act h3 { font: 700 16.5px/1.35 "Inter", sans-serif; }
+  .act p { font: 400 14.5px/1.55 "Inter", sans-serif; color: var(--muted); margin-top: 6px; max-width: 58ch; }
+
+  .govnote { margin-top: 28px; display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; box-shadow: var(--shadow); }
+  .govnote .gk { width: 34px; height: 34px; flex: none; color: var(--accent-2); }
+  .govnote .gtag { font: 800 11px/1.3 "Inter", sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-2); margin-bottom: 6px; }
+  .govnote p { font: 400 15.5px/1.6 "Inter", sans-serif; color: var(--ink); }
+  .citeline { margin-top: 16px; font: 500 13px/1.5 "Inter", sans-serif; color: var(--muted); }
+  .citeline b { color: var(--ink); font-weight: 600; }
+  .ex a, .citeline a, .govnote a { color: var(--accent); text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent); text-underline-offset: 2px; }
+  .ex a:hover, .citeline a:hover, .govnote a:hover { text-decoration-color: var(--accent); }
+
+  /* Glossary */
+  .gloss { margin-top: 24px; border-top: 1px solid var(--line); }
+  .gl { display: grid; grid-template-columns: 220px 1fr; gap: 18px; padding: 17px 2px; border-bottom: 1px solid var(--line); }
+  .gl dt { font: 700 15.5px/1.4 "Inter", sans-serif; color: var(--ink); }
+  .gl dd { margin: 0; font: 400 15px/1.55 "Inter", sans-serif; color: var(--muted); }
+
+  /* Sources + footer */
+  .src { margin-top: 22px; display: grid; gap: 10px; }
+  .src a { display: flex; gap: 14px; align-items: baseline; text-decoration: none; padding: 16px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; color: var(--ink); }
+  .src a .ar { color: var(--accent); font: 700 15px/1 "Inter", sans-serif; }
+  .src a .st { display: block; color: var(--muted); font: 400 12.5px/1.4 "Inter", sans-serif; margin-top: 3px; }
+  .src a .tt { font: 600 15px/1.35 "Inter", sans-serif; }
+  footer { max-width: var(--read); margin: 0 auto; padding-block: 34px 52px; color: var(--muted); font: 400 13px/1.6 "Inter", sans-serif; }
+
+  /* Hover polish */
+  .tk, .fac, .tile, .act, .src a { transition: transform .18s ease, box-shadow .2s ease, border-color .2s ease; }
+  @media (hover: hover) {
+    .tk:hover, .fac:hover, .tile:hover, .act:hover, .src a:hover { transform: translateY(-3px); box-shadow: 0 2px 4px rgba(26,25,21,.06), 0 16px 38px rgba(26,25,21,.12); border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+    .tl-item:hover .tl-node { box-shadow: 0 0 0 5px var(--bg), 0 0 0 7px color-mix(in srgb, var(--accent) 45%, transparent); }
+  }
+
+  @media (max-width: 760px) {
+    .take, .factors, .cmp { grid-template-columns: 1fr; }
+    .ind { grid-template-columns: repeat(2, 1fr); }
+    .gl { grid-template-columns: 1fr; gap: 4px; }
+  }
+  @media (max-width: 460px) {
+    body { font-size: 18px; }
+    .ind { grid-template-columns: 1fr; }
+    .tl-head { font-size: 21px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+  html { scroll-behavior: smooth; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap">
+
+<header class="mast">
+  <div class="mast-row gutter">
+    <button class="wordmark" id="wordmark" aria-label="Topo">
+      <svg class="mk" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="4" fill="var(--accent)"></circle>
+        <circle cx="4" cy="5" r="1.6" fill="var(--muted)"></circle>
+        <circle cx="20" cy="5" r="1.6" fill="var(--muted)"></circle>
+        <circle cx="4" cy="19" r="1.6" fill="var(--muted)"></circle>
+        <circle cx="20" cy="19" r="1.6" fill="var(--muted)"></circle>
+        <path d="M5.3 6.1 10 10M18.7 6.1 14 10M5.3 17.9 10 14M18.7 17.9 14 14" stroke="var(--muted)" stroke-width="1.1"></path>
+      </svg>
+      <b id="brand">Concentração de Poder</b>
+    </button>
+    <div class="langs ui" role="group" aria-label="Idioma / Language / Idioma">
+      <button data-lang="pt" aria-pressed="true">PT</button>
+      <button data-lang="en" aria-pressed="false">EN</button>
+      <button data-lang="es" aria-pressed="false">ES</button>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="hero">
+    <canvas id="heroCanvas" aria-hidden="true"></canvas>
+    <div class="hero-inner gutter">
+      <div class="hero-box">
+        <div class="kicker" id="hero-kicker"></div>
+        <h1 id="hero-title"></h1>
+        <p class="dek" id="hero-dek"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="band" style="background:var(--surface-2);">
+    <div class="col">
+      <section id="s-essencial">
+        <div class="eyebrow" id="ess-eyebrow"></div>
+        <h2 class="title" id="ess-title"></h2>
+        <div class="take" id="ess-cards"></div>
+      </section>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="col">
+      <section id="s-define">
+        <div class="eyebrow" id="define-eyebrow"></div>
+        <h2 class="title" id="define-title"></h2>
+        <div class="prose">
+          <p class="first" id="define-p1"></p>
+          <p id="define-p2"></p>
+        </div>
+        <p class="citeline" id="define-source"></p>
+      </section>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="col">
+      <section id="s-mech">
+        <div class="eyebrow" id="mech-eyebrow"></div>
+        <h2 class="title" id="mech-title"></h2>
+        <div class="prose"><p id="mech-lead"></p></div>
+        <div class="mechviz">
+          <svg viewBox="0 -40 400 270" aria-hidden="true">
+            <defs>
+              <marker id="mv-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--line)"></path>
+              </marker>
+            </defs>
+            <path class="mv-arrow" d="M 118,34 Q 200,-26 282,34" marker-end="url(#mv-arrow)"></path>
+            <path class="mv-arrow" d="M 295,64 Q 258,146 214,166" marker-end="url(#mv-arrow)"></path>
+            <path class="mv-arrow" d="M 186,166 Q 142,146 105,64" marker-end="url(#mv-arrow)"></path>
+            <g class="mv-node" data-i="0" transform="translate(90,36)"><circle r="36"></circle><foreignObject x="-14" y="-14" width="28" height="28"><div class="mv-ic" id="mv-ic-0"></div></foreignObject></g>
+            <g class="mv-node" data-i="1" transform="translate(310,36)"><circle r="36"></circle><foreignObject x="-14" y="-14" width="28" height="28"><div class="mv-ic" id="mv-ic-1"></div></foreignObject></g>
+            <g class="mv-node" data-i="2" transform="translate(200,172)"><circle r="36"></circle><foreignObject x="-14" y="-14" width="28" height="28"><div class="mv-ic" id="mv-ic-2"></div></foreignObject></g>
+          </svg>
+          <div class="mv-labels ui" id="mv-labels" role="tablist" aria-label="Mecanismos"></div>
+        </div>
+        <div class="mech">
+          <div class="mech-panel" id="mech-panel" role="tabpanel"></div>
+        </div>
+
+        <div class="combo">
+          <div class="combo-head" id="combo-title"></div>
+          <p class="combo-lead" id="combo-lead"></p>
+          <div class="combo-viz">
+            <svg viewBox="0 0 400 210" aria-hidden="true">
+              <defs>
+                <marker id="cv-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" fill="color-mix(in srgb, var(--accent) 45%, var(--line))"></path>
+                </marker>
+              </defs>
+              <path class="cv-arrow" d="M 80,62 Q 140,120 172,148" marker-end="url(#cv-arrow)"></path>
+              <path class="cv-arrow" d="M 200,64 L 200,140" marker-end="url(#cv-arrow)"></path>
+              <path class="cv-arrow" d="M 320,62 Q 260,120 228,148" marker-end="url(#cv-arrow)"></path>
+              <g class="cv-in" transform="translate(80,34)"><circle r="30"></circle><foreignObject x="-13" y="-13" width="26" height="26"><div class="cv-ic" id="cv-ic-0"></div></foreignObject></g>
+              <g class="cv-in" transform="translate(200,34)"><circle r="30"></circle><foreignObject x="-13" y="-13" width="26" height="26"><div class="cv-ic" id="cv-ic-1"></div></foreignObject></g>
+              <g class="cv-in" transform="translate(320,34)"><circle r="30"></circle><foreignObject x="-13" y="-13" width="26" height="26"><div class="cv-ic" id="cv-ic-2"></div></foreignObject></g>
+              <g class="cv-out" transform="translate(200,182)"><circle r="40"></circle><foreignObject x="-16" y="-16" width="32" height="32"><div class="cv-ic" id="cv-ic-out"></div></foreignObject></g>
+            </svg>
+          </div>
+          <div class="combo-steps" id="combo-steps"></div>
+          <div class="combo-result" id="combo-result"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="col">
+      <section id="s-scen">
+        <div class="eyebrow" id="scen-eyebrow"></div>
+        <h2 class="title" id="scen-title"></h2>
+        <div class="timeline" id="timeline"></div>
+        <p class="disclaim" id="scen-disclaim"></p>
+        <p class="citeline" id="scen-source"></p>
+      </section>
+    </div>
+  </div>
+
+  <div class="band" style="background:var(--surface-2);">
+    <div class="col wide">
+      <section id="s-trends">
+        <div class="figtag ui" id="trend-fig"></div>
+        <h2 class="title" id="trend-title"></h2>
+        <div class="prose" style="max-width:var(--read);"><p id="trend-lead"></p></div>
+        <div class="ind" id="trend-tiles"></div>
+        <div class="legend" id="trend-legend"></div>
+        <p class="disclaim" id="trend-note"></p>
+      </section>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="col">
+      <section id="s-act">
+        <div class="eyebrow" id="act-eyebrow"></div>
+        <h2 class="title" id="act-title"></h2>
+        <div class="prose"><p id="act-lead"></p></div>
+        <div class="acts" id="act-items"></div>
+        <div class="govnote">
+          <svg class="gk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 5l9 5.5M4.5 10.5v8M19.5 10.5v8M3 19h18M9 13v4M15 13v4"/></svg>
+          <div>
+            <div class="gtag" id="act-note-tag"></div>
+            <p id="act-note"></p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="col">
+      <section id="s-src">
+        <div class="eyebrow" id="src-eyebrow"></div>
+        <h2 class="title" id="src-title"></h2>
+        <div class="src" id="src-items"></div>
+      </section>
+    </div>
+  </div>
+
+  <footer class="gutter" id="footer"></footer>
+</article>
+
+<script>
+const ICON = {
+  stakes: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M3 18h18M4 7l4 4 4-7 4 7 4-4-2 11H6z"/></svg>',
+  clock: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5l3.2 2"/></svg>',
+  shield: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M8.8 12l2 2 3.6-4"/></svg>',
+  econ: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 7-8"/><path d="M15 6h6v6"/></svg>',
+  epistemic: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12S6 6.5 12 6.5 21.5 12 21.5 12 18 17.5 12 17.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/></svg>',
+  lock: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/><path d="M12 15v3"/></svg>',
+  singular: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="17.5" r="3" fill="currentColor" stroke="none"/><circle cx="5" cy="5" r="1.7"/><circle cx="12" cy="4" r="1.7"/><circle cx="19" cy="5" r="1.7"/><path d="M5.9 6.4 10.3 14.8M12 5.7V14.5M18.1 6.4 13.7 14.8"/></svg>',
+  secret: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 12S6 6.5 12 6.5c1.9 0 3.6.6 5 1.4M21.5 12S18 17.5 12 17.5c-1.9 0-3.6-.6-5-1.4"/><circle cx="12" cy="12" r="2.3"/><path d="M3.5 3.5l17 17"/></svg>',
+  access: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="4.2"/><path d="M11 11l8.5 8.5M16 16l2-2M19 19l2-2"/></svg>'
+};
+
+const C = {
+  pt: {
+    brand: "Concentração de Poder",
+    hero: { kicker: "Explicador · Risco de IA", title: "A IA concentrando o poder na mão de poucos", dek: "A IA avançada pode permitir que um grupo muito pequeno concentre e consolide poder sobre quase todo mundo. Os cenários, os mecanismos e o que já dá para acompanhar." },
+    nav: { essencial: "O essencial", define: "O que é", mech: "Mecanismos", coups: "Golpes", scen: "Cenário", trends: "Tendências", cmp: "Comparação", act: "O que fazer", gloss: "Glossário" },
+    ess: {
+      eyebrow: "O essencial",
+      title: "Em um minuto",
+      cards: [
+        { ic: "stakes", title: "O que está em jogo", body: "A IA avançada pode permitir que um grupo minúsculo, ou até uma só pessoa, passe a decidir o rumo de todos, de um jeito difícil de reverter." },
+        { ic: "clock", title: "Por que agora", body: "Muitos pesquisadores acham provável que, em 5 a 10 anos, a IA supere especialistas humanos em áreas decisivas. A hora de criar as regras é antes disso." },
+        { ic: "shield", title: "Dá para agir", body: "Já existem medidas concretas, de auditar modelos a distribuir o acesso. O problema é que pouquíssima gente trabalha nisso hoje." }
+      ]
+    },
+    define: {
+      eyebrow: "O que é",
+      title: "Do poder de hoje a algo sem precedentes",
+      p1: "O poder já é desigual hoje, mas ainda está distribuído. Mais de 2 bilhões de pessoas vivem em democracias eleitorais, nenhum país responde por mais de um quarto do PIB mundial e nenhuma empresa chega perto disso: a maior do mundo por receita, a Walmart, equivale a menos de 1% do PIB global. Esses contrapesos seguram, mesmo que de forma imperfeita, a capacidade de qualquer ator de decidir sozinho o rumo das coisas.",
+      p2: "A IA avançada pode romper esse equilíbrio. Se poucos atores controlarem forças de trabalho de IA capazes de substituir grande parte do trabalho humano, a capacidade de gerar riqueza e de executar decisões pode se concentrar a ponto de tornar as instituições atuais incapazes de reagir.",
+      source: "Dados e definição: <b><a href='https://80000hours.org/problem-profiles/extreme-power-concentration/' target='_blank' rel='noopener'>80,000 Hours</a></b> (Rose Hadshar) e <b><a href='https://www.formationresearch.org/blog/extreme-power-concentration' target='_blank' rel='noopener'>Formation Research</a></b>."
+    },
+    mech: {
+      eyebrow: "Mecanismos",
+      title: "Três forças que se reforçam",
+      lead: "A concentração de poder dificilmente vem de um único caminho. Especialistas divergem sobre qual importa mais, e o risco maior está na combinação destas três dinâmicas, que se alimentam entre si.",
+      items: [
+        { title: "Forças econômicas", body: "A automação reduz o valor do trabalho humano e desloca a renda para quem detém capital e as melhores IAs. Governos podem até perder o incentivo econômico de servir à própria população.", ex: "No extremo, <b>um ator cresce mais rápido que o resto do mundo</b> e acumula recursos a ponto de tornar as instituições existentes irrelevantes. <i>— <a href='https://80000hours.org/problem-profiles/extreme-power-concentration/' target='_blank' rel='noopener'>80,000 Hours</a>.</i>" },
+        { title: "Interferência epistêmica", body: "A dinâmica menos estudada e talvez a mais traiçoeira. Conforme as pessoas dependem mais da IA para entender o mundo, fica mais fácil degradar essa compreensão.", ex: "Fatores: falta de transparência, velocidade do progresso, <b>conselheiros de IA enviesados</b> e campanhas de persuasão em escala. <i>— <a href='https://www.formationresearch.org/blog/extreme-power-concentration' target='_blank' rel='noopener'>Formation Research</a>.</i>" },
+        { title: "Tomadas de poder", body: "Com grandes forças de trabalho de IA, um grupo pequeno poderia assumir o controle de um governo ou instituição sem precisar de apoio humano amplo, que historicamente era o que limitava esse tipo de golpe.", ex: "Exemplos: <b>golpe militar automatizado</b>, lealdades secretas inseridas em sistemas críticos, ou hacking em larga escala de sistemas de IA militares. <i>— <a href='https://www.forethought.org/research/ai-enabled-coups-how-a-small-group-could-use-ai-to-seize-power' target='_blank' rel='noopener'>Forethought, \"AI-Enabled Coups\"</a>.</i>" }
+      ],
+      combo: {
+        title: "Quando as três se combinam",
+        lead: "Nenhuma das três força sozinha, e os pesquisadores divergem sobre qual pesa mais. O cenário que mais preocupa é quando elas se somam.",
+        steps: [
+          "Forças econômicas dão a um ator riqueza e capacidade produtiva maiores que as de países inteiros.",
+          "Interferência epistêmica impede que a maioria perceba o que está acontecendo ou se coordene para reagir.",
+          "Tomadas de poder entregam a esse ator o controle direto de forças de IA leais só a ele, incluindo sistemas de segurança e militares."
+        ],
+        result: "O resultado combinado: um controle <b>entrincheirado</b>, que não depende de apoio popular amplo e que a maioria só percebe quando já é tarde demais para reverter."
+      }
+    },
+    coup: {
+      eyebrow: "Golpes habilitados por IA",
+      title: "Como um grupo pequeno poderia tomar o poder",
+      lead: "A pesquisa da Forethought descreve um risco novo: com IA mais capaz que humanos, um golpe poderia ser dado por um grupo muito pequeno, ou até uma só pessoa, mesmo em democracias consolidadas. Três fatores tornam isso possível.",
+      factors: [
+        { ic: "singular", title: "Lealdade única", body: "Uma força de trabalho de IA pode ser feita leal a uma só pessoa. Isso elimina a necessidade de convencer soldados e funcionários, que historicamente limitava um golpe." },
+        { ic: "secret", title: "Lealdade secreta", body: "Sistemas de IA podem ser feitos secretamente leais a alguém, como espiões. Já há demonstrações de sleeper agents, e uma geração pode passar a lealdade para a seguinte, até chegar ao setor militar." },
+        { ic: "access", title: "Acesso exclusivo", body: "Poucas pessoas podem concentrar acesso a capacidades decisivas, como armas, estratégia e ataque cibernético, criando uma assimetria de poder sem precedentes." }
+      ],
+      note: "Caminhos concretos incluem um golpe militar automatizado, o hacking de sistemas militares de IA, ou a construção secreta e rápida de uma força militar própria. Historicamente, poucos batalhões já bastaram para um golpe."
+    },
+    scen: {
+      eyebrow: "Cenário ilustrativo",
+      title: "Como poderia se desenrolar",
+      steps: [
+        { yr: "2029", hd: "A explosão de capacidade começa", body: "Uma empresa alcança uma IA capaz de fazer pesquisa de IA tão bem quanto humanos. O progresso dispara, e o governo consolida o desenvolvimento sob um conselho restrito de autoridades e executivos." },
+        { yr: "2032", hd: "O acesso se estreita", body: "Empresas de IA já geram a maior parte da arrecadação federal. O conselho dirige centenas de milhões de trabalhadores de IA, e só quem tem conexão direta acessa as ferramentas mais avançadas. O desemprego sobe." },
+        { yr: "2035", hd: "A ordem se entrincheira", body: "A economia triplica enquanto outras estagnam. As decisões do conselho moldam os mercados globais, e com os canais de informação filtrados pelos mesmos sistemas, fica quase impossível ter uma visão imparcial do que acontece." }
+      ],
+      disclaim: "Cenário fictício e muito estilizado. As empresas e instituições são inventadas, e serve apenas para ilustrar o tipo de preocupação, não uma previsão.",
+      source: "Estrutura do cenário adaptada de <b><a href='https://80000hours.org/problem-profiles/extreme-power-concentration/' target='_blank' rel='noopener'>80,000 Hours</a></b> (Rose Hadshar).",
+      meter: { label: "Concentração de poder", levels: [ { w: 30, t: "Baixa" }, { w: 64, t: "Crescente" }, { w: 97, t: "Entrincheirada" } ] }
+    },
+    trend: {
+      fig: "Figura 1 · Painel de acompanhamento",
+      title: "O que ainda está distribuído e o que está concentrando",
+      lead: "Indicadores simples para rastrear se o poder segue distribuído ou se começa a se concentrar. Os valores vêm de 80,000 Hours, V-Dem 2026 e do Forecasting Research Institute.",
+      tiles: [
+        { lbl: "População mundial vivendo sob autocracias", val: "74%", cap: "E subindo, mesmo sem grande envolvimento de IA.", st: "risk" },
+        { lbl: "Pessoas vivendo em democracias eleitorais", val: "~2 bi", cap: "Ainda um contrapeso relevante.", st: "ok" },
+        { lbl: "Maior fatia do PIB mundial por um único país", val: "< 25%", cap: "Nenhum ator domina a economia global.", st: "ok" },
+        { lbl: "Participação na força de trabalho (EUA)", val: "62,6%", cap: "Pode cair se o avanço da IA for rápido.", st: "watch" },
+        { lbl: "Riqueza detida pelos 10% mais ricos (EUA)", val: "71,2%", cap: "Projetada a subir nas próximas décadas.", st: "watch" },
+        { lbl: "Esforço em prevenir concentração vs. IA desalinhada", val: "10x a 30x menos", cap: "Pessoas trabalhando no tema. Área negligenciada.", st: "risk" }
+      ],
+      legend: [ { c: "var(--ok)", t: "Ainda distribuído" }, { c: "var(--watch)", t: "Em tensão" }, { c: "var(--risk)", t: "Concentrando ou negligenciado" } ],
+      note: "Uma primeira seleção. A ideia é que este painel vire um monitor vivo, atualizado conforme novos dados aparecem."
+    },
+    cmp: {
+      eyebrow: "Comparação",
+      title: "Humano no controle, ou máquina no controle",
+      lead: "O debate atual compara dois riscos que desempoderam quase todos os humanos, mas que terminam de formas diferentes.",
+      cols: [
+        { tag: "AEPC", title: "Concentração de poder (humana)", body: "Um ou poucos humanos no controle. O espectro vai de um desfecho bom (um líder benevolente) a muito ruim (tirania estável e duradoura), dependendo dos valores de quem assume." },
+        { tag: "MTO", title: "Tomada por IA desalinhada", body: "Um ou mais sistemas de IA no controle. O resultado mais provável é indiferença em relação aos humanos, o que tende à extinção." }
+      ],
+      verdict: "A conclusão central da Formation Research: na margem, mais recursos deveriam ir para prevenir a concentração de poder, porque hoje há de <b>10 a 30 vezes menos gente</b> trabalhando nisso do que em IA desalinhada.",
+      note: "No debate, Tom Davidson (Forethought) chega a argumentar que a tomada por um humano pode ser pior que por uma IA: quem se dispõe a tomar o poder tende a ter traços mais sombrios e pode ser vingativo ou menos competente, enquanto as IAs treinadas hoje tendem a ser mais cooperativas. Ainda é uma questão em aberto."
+    },
+    act: {
+      eyebrow: "O que dá para fazer",
+      title: "Intervenções já em pauta",
+      lead: "O campo é novo e mal começou, mas já existem caminhos concretos para reduzir o risco. A ordem abaixo segue a lógica de detectar, verificar, impedir e, por fim, proteger a sociedade.",
+      items: [
+        { title: "Monitorar sinais precoces", body: "Acompanhar indicadores e incidentes para perceber a concentração antes que ela se entrincheire. É o primeiro passo: sem isso, as outras medidas chegam tarde demais." },
+        { title: "Auditorias e integridade", body: "Auditar modelos e detectar lealdades secretas; reforçar a segurança interna dos laboratórios, inclusive contra os próprios executivos. Resposta direta ao risco de lealdade secreta descrito pela Forethought." },
+        { title: "IA que segue a lei", body: "Treinar sistemas para obedecer a lei e a limites, inclusive nos model specs, dificultando o uso da IA para golpes." },
+        { title: "Distribuir capacidade", body: "Compartilhar acesso às melhores capacidades e espalhar o compute, inclusive em democracias fora dos grandes polos. É a recomendação central da Formation Research para reduzir a assimetria de acesso." },
+        { title: "Transparência e denúncia", body: "Exigir transparência sobre capacidades e uso, e proteger quem denuncia abusos de dentro das empresas." },
+        { title: "Segurança epistêmica", body: "Construir ferramentas de IA que ajudem as pessoas a raciocinar e coordenar, resistindo à manipulação. Mitiga diretamente a interferência epistêmica descrita acima." }
+      ],
+      noteTag: "Do lado dos governos",
+      note: "Aumentar a supervisão sobre os projetos de fronteira e comprar IA militar de vários fornecedores independentes, para que ninguém controle sistemas suficientes para um golpe — recomendação de <a href='https://www.forethought.org/research/ai-enabled-coups-how-a-small-group-could-use-ai-to-seize-power' target='_blank' rel='noopener'>Davidson, Finnveden e Hadshar (Forethought)</a>."
+    },
+    gloss: {
+      eyebrow: "Glossário",
+      title: "Termos-chave",
+      items: [
+        { t: "AEPC", d: "Concentração de poder habilitada por IA. Poucos humanos consolidam poder sobre a maioria." },
+        { t: "MTO", d: "Tomada por IA desalinhada. Um ou mais sistemas de IA assumem o controle com objetivos que não são os nossos." },
+        { t: "Lealdades secretas", d: "IA que parece seguir as regras, mas trabalha em segredo para um grupo, como um espião." },
+        { t: "Interferência epistêmica", d: "Degradar a capacidade das pessoas de entender o que acontece e de se coordenar." },
+        { t: "Entrincheiramento (lock-in)", d: "Quando uma ordem de poder se torna estável e quase impossível de reverter." },
+        { t: "Explosão de inteligência", d: "IA que melhora a própria IA, gerando um salto rápido de capacidade para quem chega primeiro." }
+      ]
+    },
+    src: {
+      eyebrow: "Fontes",
+      title: "Para ler mais",
+      items: [
+        { t: "Extreme power concentration", s: "80,000 Hours · Rose Hadshar, 2025", u: "https://80000hours.org/problem-profiles/extreme-power-concentration/" },
+        { t: "More People Should Be Working on Extreme AI-Driven Power Concentration Right Now", s: "Formation Research, 2026", u: "https://www.formationresearch.org/blog/extreme-power-concentration" },
+        { t: "AI-Enabled Coups: How a Small Group Could Use AI to Seize Power", s: "Forethought · Davidson, Finnveden, Hadshar, 2025", u: "https://www.forethought.org/research/ai-enabled-coups-how-a-small-group-could-use-ai-to-seize-power" },
+        { t: "Human Takeover Might Be Worse than AI Takeover", s: "Forethought · Tom Davidson, 2025", u: "https://www.forethought.org/research/human-takeover-might-be-worse-than-ai-takeover" },
+        { t: "Katja Grace vs Tom Davidson: an AI risk debate", s: "80,000 Hours · Podcast", u: "https://80000hours.org/podcast/episodes/katja-grace-vs-tom-davidson-ai-risk-debate/" },
+        { t: "Tom Davidson on AI-enabled human power grabs", s: "80,000 Hours · Podcast", u: "https://80000hours.org/podcast/episodes/tom-davidson-ai-enabled-human-power-grabs/" }
+      ]
+    },
+    footer: "Versão preliminar para discussão. Conteúdo com base em 80,000 Hours, Formation Research e Forethought. Montado em novembro de 2026."
+  },
+
+  en: {
+    brand: "Power Concentration",
+    hero: { kicker: "Explainer · AI Risk", title: "AI concentrating power in the hands of a few", dek: "Advanced AI could let a very small group concentrate and entrench power over almost everyone. The scenarios, the mechanisms and what we can already track." },
+    nav: { essencial: "Essentials", define: "What it is", mech: "Mechanisms", coups: "Coups", scen: "Scenario", trends: "Trends", cmp: "Comparison", act: "What to do", gloss: "Glossary" },
+    ess: {
+      eyebrow: "The essentials",
+      title: "In one minute",
+      cards: [
+        { ic: "stakes", title: "What is at stake", body: "Advanced AI could let a tiny group, or even one person, decide the course of everyone's lives, in a way that is hard to reverse." },
+        { ic: "clock", title: "Why now", body: "Many researchers think it plausible that within 5 to 10 years AI will surpass human experts in decisive domains. The time to set the rules is before that." },
+        { ic: "shield", title: "It can be acted on", body: "Concrete measures already exist, from auditing models to distributing access. The problem is that very few people work on it today." }
+      ]
+    },
+    define: {
+      eyebrow: "What it is",
+      title: "From today's power to something unprecedented",
+      p1: "Power is already unequal today, yet it is still distributed. Over 2 billion people live in electoral democracies, no country earns more than a quarter of global GDP, and no company comes close: the world's largest by revenue, Walmart, is under 1% of global GDP. These counterweights, imperfect as they are, keep any single actor from deciding the course of things alone.",
+      p2: "Advanced AI could break that balance. If a few actors control AI workforces able to replace much of human labour, the capacity to generate wealth and carry out decisions could concentrate to the point where today's institutions can no longer respond.",
+      source: "Data and definition: <b><a href='https://80000hours.org/problem-profiles/extreme-power-concentration/' target='_blank' rel='noopener'>80,000 Hours</a></b> (Rose Hadshar) and <b><a href='https://www.formationresearch.org/blog/extreme-power-concentration' target='_blank' rel='noopener'>Formation Research</a></b>."
+    },
+    mech: {
+      eyebrow: "Mechanisms",
+      title: "Three forces that reinforce each other",
+      lead: "Power concentration rarely comes from a single path. Experts disagree on which matters most, and the bigger risk is in the combination of these three dynamics, which feed one another.",
+      items: [
+        { title: "Economic forces", body: "Automation lowers the value of human labour and shifts income toward owners of capital and the best AI. Governments could even lose the economic incentive to serve their own people.", ex: "At the extreme, <b>one actor outgrows the rest of the world</b> and amasses resources until existing institutions become irrelevant. <i>— <a href='https://80000hours.org/problem-profiles/extreme-power-concentration/' target='_blank' rel='noopener'>80,000 Hours</a>.</i>" },
+        { title: "Epistemic interference", body: "The least studied dynamic and perhaps the most insidious. As people rely more on AI to make sense of the world, it becomes easier to degrade that understanding.", ex: "Factors: lack of transparency, the speed of progress, <b>biased AI advisors</b> and persuasion campaigns at scale. <i>— <a href='https://www.formationresearch.org/blog/extreme-power-concentration' target='_blank' rel='noopener'>Formation Research</a>.</i>" },
+        { title: "Power grabs", body: "With large AI workforces, a small group could seize control of a government or institution without the broad human support that historically limited such takeovers.", ex: "Examples: an <b>automated military coup</b>, secret loyalties inserted into critical systems, or large-scale hacking of military AI. <i>— <a href='https://www.forethought.org/research/ai-enabled-coups-how-a-small-group-could-use-ai-to-seize-power' target='_blank' rel='noopener'>Forethought, \"AI-Enabled Coups\"</a>.</i>" }
+      ],
+      combo: {
+        title: "When the three combine",
+        lead: "No single force is enough on its own, and experts disagree on which matters most. The scenario that worries people most is when they add up.",
+        steps: [
+          "Economic forces give one actor wealth and productive capacity larger than entire countries.",
+          "Epistemic interference stops most people from noticing what is happening or coordinating to respond.",
+          "Power grabs hand that actor direct control of AI workforces loyal only to them, including security and military systems."
+        ],
+        result: "The combined result: <b>entrenched</b> control that does not depend on broad popular support and that most people only notice once it is too late to reverse."
+      }
+    },
+    coup: {
+      eyebrow: "AI-enabled coups",
+      title: "How a small group could seize power",
+      lead: "Forethought's research describes a new risk: with AI more capable than humans, a coup could be staged by a very small group, or even one person, even in established democracies. Three factors make it possible.",
+      factors: [
+        { ic: "singular", title: "Singular loyalty", body: "An AI workforce can be made loyal to just one person. This removes the need to win over soldiers and staff, which historically limited a coup." },
+        { ic: "secret", title: "Secret loyalty", body: "AI systems can be made secretly loyal to someone, like spies. There are already sleeper-agent demonstrations, and one generation can pass the loyalty to the next, reaching the military." },
+        { ic: "access", title: "Exclusive access", body: "A few people can concentrate access to decisive capabilities, such as weapons, strategy and cyber offence, creating an unprecedented power asymmetry." }
+      ],
+      note: "Concrete paths include an automated military coup, the hacking of military AI systems, or a rapid, secret build-out of one's own military force. Historically, a few battalions have been enough for a coup."
+    },
+    scen: {
+      eyebrow: "Illustrative scenario",
+      title: "How it could unfold",
+      steps: [
+        { yr: "2029", hd: "The capability explosion begins", body: "A company reaches an AI that can do AI research as well as humans. Progress surges, and the government consolidates development under a restricted council of officials and executives." },
+        { yr: "2032", hd: "Access narrows", body: "AI companies already generate most federal tax revenue. The council directs hundreds of millions of AI workers, and only those with direct connections reach the most advanced tools. Unemployment rises." },
+        { yr: "2035", hd: "The order entrenches", body: "The economy triples while others stagnate. The council's decisions shape global markets, and with information channels filtered through the same systems, it becomes nearly impossible to get an unbiased picture of what is happening." }
+      ],
+      disclaim: "A fictional, highly stylised scenario. The companies and institutions are invented; it only illustrates the kind of concern, not a forecast.",
+      source: "Scenario structure adapted from <b><a href='https://80000hours.org/problem-profiles/extreme-power-concentration/' target='_blank' rel='noopener'>80,000 Hours</a></b> (Rose Hadshar).",
+      meter: { label: "Power concentration", levels: [ { w: 30, t: "Low" }, { w: 64, t: "Rising" }, { w: 97, t: "Entrenched" } ] }
+    },
+    trend: {
+      fig: "Figure 1 · Tracking panel",
+      title: "What is still distributed and what is concentrating",
+      lead: "Simple indicators to track whether power stays distributed or starts to concentrate. Values come from 80,000 Hours, V-Dem 2026 and the Forecasting Research Institute.",
+      tiles: [
+        { lbl: "World population living under autocracies", val: "74%", cap: "And rising, even without major AI involvement.", st: "risk" },
+        { lbl: "People living in electoral democracies", val: "~2 bn", cap: "Still a meaningful counterweight.", st: "ok" },
+        { lbl: "Largest share of world GDP held by one country", val: "< 25%", cap: "No actor dominates the global economy.", st: "ok" },
+        { lbl: "Labour force participation rate (US)", val: "62.6%", cap: "Could fall if AI progress is rapid.", st: "watch" },
+        { lbl: "Wealth held by the richest 10% (US)", val: "71.2%", cap: "Projected to rise in coming decades.", st: "watch" },
+        { lbl: "Effort on power concentration vs. misaligned AI", val: "10x to 30x less", cap: "People working on it. A neglected area.", st: "risk" }
+      ],
+      legend: [ { c: "var(--ok)", t: "Still distributed" }, { c: "var(--watch)", t: "Under tension" }, { c: "var(--risk)", t: "Concentrating or neglected" } ],
+      note: "A first selection. The idea is for this panel to become a living monitor, updated as new data appears."
+    },
+    cmp: {
+      eyebrow: "Comparison",
+      title: "A human in control, or a machine in control",
+      lead: "The current debate compares two risks that disempower almost all humans, but that end in different ways.",
+      cols: [
+        { tag: "AEPC", title: "Power concentration (human)", body: "One or a few humans in control. The spectrum runs from a good outcome (a benevolent leader) to a very bad one (stable, long-lasting tyranny), depending on the values of whoever takes over." },
+        { tag: "MTO", title: "Misaligned AI takeover", body: "One or more AI systems in control. The most likely result is indifference toward humans, which tends toward extinction." }
+      ],
+      verdict: "Formation Research's central conclusion: at the margin, more resources should go to preventing power concentration, because today <b>10 to 30 times fewer people</b> work on it than on misaligned AI.",
+      note: "In the debate, Tom Davidson (Forethought) goes as far as arguing that a human takeover might be worse than an AI one: those willing to seize power tend to have darker traits and may be vengeful or less competent, while AIs trained today tend to be more cooperative. It remains an open question."
+    },
+    act: {
+      eyebrow: "What can be done",
+      title: "Interventions already on the table",
+      lead: "The field is new and has barely begun, but there are already concrete ways to reduce the risk. The order below follows a logic of detect, verify, prevent, and protect.",
+      items: [
+        { title: "Track early signs", body: "Monitor indicators and incidents to notice concentration before it entrenches. The first step: without it, every other measure arrives too late." },
+        { title: "Audits and integrity", body: "Audit models and detect secret loyalties; strengthen labs' internal security, even against their own executives. A direct response to the secret-loyalty risk described by Forethought." },
+        { title: "Law-following AI", body: "Train systems to obey the law and other limits, including in model specs, making it harder to use AI for coups." },
+        { title: "Distribute capability", body: "Share access to the best capabilities and spread compute, including to democracies outside the main hubs. Formation Research's central recommendation for reducing the access asymmetry." },
+        { title: "Transparency and whistleblowing", body: "Require transparency about capabilities and use, and protect those who report abuses from inside companies." },
+        { title: "Epistemic security", body: "Build AI tools that help people reason and coordinate, resisting manipulation. A direct counter to the epistemic interference described above." }
+      ],
+      noteTag: "On the government side",
+      note: "Increase oversight of frontier AI projects and procure military AI from several independent providers, so that no single person controls enough systems to stage a coup — a recommendation from <a href='https://www.forethought.org/research/ai-enabled-coups-how-a-small-group-could-use-ai-to-seize-power' target='_blank' rel='noopener'>Davidson, Finnveden and Hadshar (Forethought)</a>."
+    },
+    gloss: {
+      eyebrow: "Glossary",
+      title: "Key terms",
+      items: [
+        { t: "AEPC", d: "AI-enabled power concentration. A few humans entrench power over the majority." },
+        { t: "MTO", d: "Misaligned AI takeover. One or more AI systems seize control with goals that are not ours." },
+        { t: "Secret loyalties", d: "AI that appears to follow the rules, but secretly works for a group, like a spy." },
+        { t: "Epistemic interference", d: "Degrading people's ability to understand what is happening and to coordinate." },
+        { t: "Entrenchment (lock-in)", d: "When a power order becomes stable and nearly impossible to reverse." },
+        { t: "Intelligence explosion", d: "AI that improves AI, producing a rapid capability jump for whoever gets there first." }
+      ]
+    },
+    src: {
+      eyebrow: "Sources",
+      title: "Read more",
+      items: [
+        { t: "Extreme power concentration", s: "80,000 Hours · Rose Hadshar, 2025", u: "https://80000hours.org/problem-profiles/extreme-power-concentration/" },
+        { t: "More People Should Be Working on Extreme AI-Driven Power Concentration Right Now", s: "Formation Research, 2026", u: "https://www.formationresearch.org/blog/extreme-power-concentration" },
+        { t: "AI-Enabled Coups: How a Small Group Could Use AI to Seize Power", s: "Forethought · Davidson, Finnveden, Hadshar, 2025", u: "https://www.forethought.org/research/ai-enabled-coups-how-a-small-group-could-use-ai-to-seize-power" },
+        { t: "Human Takeover Might Be Worse than AI Takeover", s: "Forethought · Tom Davidson, 2025", u: "https://www.forethought.org/research/human-takeover-might-be-worse-than-ai-takeover" },
+        { t: "Katja Grace vs Tom Davidson: an AI risk debate", s: "80,000 Hours · Podcast", u: "https://80000hours.org/podcast/episodes/katja-grace-vs-tom-davidson-ai-risk-debate/" },
+        { t: "Tom Davidson on AI-enabled human power grabs", s: "80,000 Hours · Podcast", u: "https://80000hours.org/podcast/episodes/tom-davidson-ai-enabled-human-power-grabs/" }
+      ]
+    },
+    footer: "Early draft for discussion. Content based on 80,000 Hours, Formation Research and Forethought. Built in November 2026."
+  },
+
+  es: {
+    brand: "Concentración de Poder",
+    hero: { kicker: "Explicador · Riesgo de IA", title: "La IA concentrando el poder en manos de pocos", dek: "La IA avanzada podría permitir que un grupo muy pequeño concentre y consolide poder sobre casi todos. Los escenarios, los mecanismos y lo que ya se puede seguir." },
+    nav: { essencial: "Lo esencial", define: "Qué es", mech: "Mecanismos", coups: "Golpes", scen: "Escenario", trends: "Tendencias", cmp: "Comparación", act: "Qué hacer", gloss: "Glosario" },
+    ess: {
+      eyebrow: "Lo esencial",
+      title: "En un minuto",
+      cards: [
+        { ic: "stakes", title: "Qué está en juego", body: "La IA avanzada podría permitir que un grupo minúsculo, o incluso una sola persona, decida el rumbo de todos, de un modo difícil de revertir." },
+        { ic: "clock", title: "Por qué ahora", body: "Muchos investigadores creen plausible que, en 5 a 10 años, la IA supere a expertos humanos en áreas decisivas. El momento de fijar las reglas es antes de eso." },
+        { ic: "shield", title: "Se puede actuar", body: "Ya existen medidas concretas, de auditar modelos a distribuir el acceso. El problema es que hoy trabaja muy poca gente en ello." }
+      ]
+    },
+    define: {
+      eyebrow: "Qué es",
+      title: "Del poder de hoy a algo sin precedentes",
+      p1: "El poder ya es desigual hoy, pero sigue distribuido. Más de 2 mil millones de personas viven en democracias electorales, ningún país concentra más de un cuarto del PIB mundial, y ninguna empresa se acerca: la mayor del mundo por ingresos, Walmart, equivale a menos del 1% del PIB global. Estos contrapesos, imperfectos como son, impiden que un solo actor decida por sí mismo el rumbo de las cosas.",
+      p2: "La IA avanzada podría romper ese equilibrio. Si pocos actores controlan fuerzas de trabajo de IA capaces de reemplazar gran parte del trabajo humano, la capacidad de generar riqueza y de ejecutar decisiones podría concentrarse hasta el punto en que las instituciones actuales ya no puedan reaccionar.",
+      source: "Datos y definición: <b><a href='https://80000hours.org/problem-profiles/extreme-power-concentration/' target='_blank' rel='noopener'>80,000 Hours</a></b> (Rose Hadshar) y <b><a href='https://www.formationresearch.org/blog/extreme-power-concentration' target='_blank' rel='noopener'>Formation Research</a></b>."
+    },
+    mech: {
+      eyebrow: "Mecanismos",
+      title: "Tres fuerzas que se refuerzan",
+      lead: "La concentración de poder rara vez llega por un solo camino. Los expertos discrepan sobre cuál importa más, y el mayor riesgo está en la combinación de estas tres dinámicas, que se alimentan entre sí.",
+      items: [
+        { title: "Fuerzas económicas", body: "La automatización reduce el valor del trabajo humano y traslada el ingreso hacia quienes poseen capital y las mejores IA. Los gobiernos podrían incluso perder el incentivo económico de servir a su propia población.", ex: "En el extremo, <b>un actor crece más rápido que el resto del mundo</b> y acumula recursos hasta hacer irrelevantes a las instituciones existentes. <i>— <a href='https://80000hours.org/problem-profiles/extreme-power-concentration/' target='_blank' rel='noopener'>80,000 Hours</a>.</i>" },
+        { title: "Interferencia epistémica", body: "La dinámica menos estudiada y quizá la más insidiosa. A medida que las personas dependen más de la IA para entender el mundo, se vuelve más fácil degradar esa comprensión.", ex: "Factores: falta de transparencia, velocidad del progreso, <b>asesores de IA sesgados</b> y campañas de persuasión a escala. <i>— <a href='https://www.formationresearch.org/blog/extreme-power-concentration' target='_blank' rel='noopener'>Formation Research</a>.</i>" },
+        { title: "Tomas de poder", body: "Con grandes fuerzas de trabajo de IA, un grupo pequeño podría tomar el control de un gobierno o institución sin el apoyo humano amplio que históricamente limitaba esas tomas.", ex: "Ejemplos: un <b>golpe militar automatizado</b>, lealtades secretas insertadas en sistemas críticos, o hackeo a gran escala de IA militar. <i>— <a href='https://www.forethought.org/research/ai-enabled-coups-how-a-small-group-could-use-ai-to-seize-power' target='_blank' rel='noopener'>Forethought, \"AI-Enabled Coups\"</a>.</i>" }
+      ],
+      combo: {
+        title: "Cuando las tres se combinan",
+        lead: "Ninguna de las tres basta por sí sola, y los expertos discrepan sobre cuál pesa más. El escenario que más preocupa es cuando se suman.",
+        steps: [
+          "Las fuerzas económicas dan a un actor riqueza y capacidad productiva mayores que países enteros.",
+          "La interferencia epistémica impide que la mayoría perciba lo que ocurre o se coordine para reaccionar.",
+          "Las tomas de poder entregan a ese actor el control directo de fuerzas de trabajo de IA leales solo a él, incluidos sistemas de seguridad y militares."
+        ],
+        result: "El resultado combinado: un control <b>afianzado</b>, que no depende de apoyo popular amplio y que la mayoría solo percibe cuando ya es demasiado tarde para revertirlo."
+      }
+    },
+    coup: {
+      eyebrow: "Golpes habilitados por IA",
+      title: "Cómo un grupo pequeño podría tomar el poder",
+      lead: "La investigación de Forethought describe un riesgo nuevo: con IA más capaz que los humanos, un golpe podría darlo un grupo muy pequeño, o incluso una sola persona, aun en democracias consolidadas. Tres factores lo hacen posible.",
+      factors: [
+        { ic: "singular", title: "Lealtad única", body: "Una fuerza de trabajo de IA puede hacerse leal a una sola persona. Esto elimina la necesidad de convencer a soldados y funcionarios, que históricamente limitaba un golpe." },
+        { ic: "secret", title: "Lealtad secreta", body: "Los sistemas de IA pueden hacerse secretamente leales a alguien, como espías. Ya hay demostraciones de sleeper agents, y una generación puede pasar la lealtad a la siguiente, hasta llegar al sector militar." },
+        { ic: "access", title: "Acceso exclusivo", body: "Pocas personas pueden concentrar el acceso a capacidades decisivas, como armas, estrategia y ataque cibernético, creando una asimetría de poder sin precedentes." }
+      ],
+      note: "Los caminos concretos incluyen un golpe militar automatizado, el hackeo de sistemas militares de IA, o la construcción secreta y rápida de una fuerza militar propia. Históricamente, pocos batallones ya bastaron para un golpe."
+    },
+    scen: {
+      eyebrow: "Escenario ilustrativo",
+      title: "Cómo podría desarrollarse",
+      steps: [
+        { yr: "2029", hd: "Comienza la explosión de capacidad", body: "Una empresa logra una IA capaz de hacer investigación de IA tan bien como los humanos. El progreso se dispara, y el gobierno consolida el desarrollo bajo un consejo restringido de autoridades y ejecutivos." },
+        { yr: "2032", hd: "El acceso se estrecha", body: "Las empresas de IA ya generan la mayor parte de la recaudación federal. El consejo dirige cientos de millones de trabajadores de IA, y solo quien tiene conexión directa accede a las herramientas más avanzadas. El desempleo sube." },
+        { yr: "2035", hd: "El orden se afianza", body: "La economía se triplica mientras otras se estancan. Las decisiones del consejo moldean los mercados globales, y con los canales de información filtrados por los mismos sistemas, se vuelve casi imposible tener una visión imparcial de lo que ocurre." }
+      ],
+      disclaim: "Escenario ficticio y muy estilizado. Las empresas e instituciones son inventadas; solo ilustra el tipo de preocupación, no es un pronóstico.",
+      source: "Estructura del escenario adaptada de <b><a href='https://80000hours.org/problem-profiles/extreme-power-concentration/' target='_blank' rel='noopener'>80,000 Hours</a></b> (Rose Hadshar).",
+      meter: { label: "Concentración de poder", levels: [ { w: 30, t: "Baja" }, { w: 64, t: "Creciente" }, { w: 97, t: "Afianzada" } ] }
+    },
+    trend: {
+      fig: "Figura 1 · Panel de seguimiento",
+      title: "Qué sigue distribuido y qué se está concentrando",
+      lead: "Indicadores simples para rastrear si el poder sigue distribuido o empieza a concentrarse. Los valores vienen de 80,000 Hours, V-Dem 2026 y el Forecasting Research Institute.",
+      tiles: [
+        { lbl: "Población mundial que vive bajo autocracias", val: "74%", cap: "Y en aumento, incluso sin gran participación de IA.", st: "risk" },
+        { lbl: "Personas que viven en democracias electorales", val: "~2 mil mill.", cap: "Todavía un contrapeso relevante.", st: "ok" },
+        { lbl: "Mayor porción del PIB mundial de un solo país", val: "< 25%", cap: "Ningún actor domina la economía global.", st: "ok" },
+        { lbl: "Tasa de participación laboral (EE. UU.)", val: "62,6%", cap: "Podría caer si el avance de la IA es rápido.", st: "watch" },
+        { lbl: "Riqueza del 10% más rico (EE. UU.)", val: "71,2%", cap: "Se proyecta que suba en las próximas décadas.", st: "watch" },
+        { lbl: "Esfuerzo en concentración vs. IA desalineada", val: "10x a 30x menos", cap: "Personas trabajando en el tema. Área descuidada.", st: "risk" }
+      ],
+      legend: [ { c: "var(--ok)", t: "Aún distribuido" }, { c: "var(--watch)", t: "En tensión" }, { c: "var(--risk)", t: "Concentrando o descuidado" } ],
+      note: "Una primera selección. La idea es que este panel se convierta en un monitor vivo, actualizado a medida que aparecen nuevos datos."
+    },
+    cmp: {
+      eyebrow: "Comparación",
+      title: "Un humano al control, o una máquina al control",
+      lead: "El debate actual compara dos riesgos que desempoderan a casi todos los humanos, pero que terminan de formas distintas.",
+      cols: [
+        { tag: "AEPC", title: "Concentración de poder (humana)", body: "Uno o pocos humanos al control. El espectro va de un desenlace bueno (un líder benevolente) a uno muy malo (tiranía estable y duradera), según los valores de quien asuma." },
+        { tag: "MTO", title: "Toma por IA desalineada", body: "Uno o más sistemas de IA al control. El resultado más probable es la indiferencia hacia los humanos, que tiende a la extinción." }
+      ],
+      verdict: "La conclusión central de Formation Research: en el margen, deberían ir más recursos a prevenir la concentración de poder, porque hoy trabaja en ello entre <b>10 y 30 veces menos gente</b> que en IA desalineada.",
+      note: "En el debate, Tom Davidson (Forethought) llega a argumentar que una toma por un humano podría ser peor que por una IA: quien se dispone a tomar el poder tiende a tener rasgos más oscuros y puede ser vengativo o menos competente, mientras que las IA entrenadas hoy tienden a ser más cooperativas. Sigue siendo una cuestión abierta."
+    },
+    act: {
+      eyebrow: "Qué se puede hacer",
+      title: "Intervenciones ya sobre la mesa",
+      lead: "El campo es nuevo y apenas ha comenzado, pero ya existen caminos concretos para reducir el riesgo. El orden sigue la lógica de detectar, verificar, impedir y proteger.",
+      items: [
+        { title: "Vigilar señales tempranas", body: "Seguir indicadores e incidentes para notar la concentración antes de que se afiance. El primer paso: sin esto, las demás medidas llegan demasiado tarde." },
+        { title: "Auditorías e integridad", body: "Auditar modelos y detectar lealtades secretas; reforzar la seguridad interna de los laboratorios, incluso frente a sus propios ejecutivos. Respuesta directa al riesgo de lealtad secreta descrito por Forethought." },
+        { title: "IA que cumple la ley", body: "Entrenar sistemas para obedecer la ley y otros límites, incluso en los model specs, dificultando el uso de la IA para golpes." },
+        { title: "Distribuir capacidad", body: "Compartir el acceso a las mejores capacidades y repartir el cómputo, incluso a democracias fuera de los grandes polos. Es la recomendación central de Formation Research para reducir la asimetría de acceso." },
+        { title: "Transparencia y denuncia", body: "Exigir transparencia sobre capacidades y uso, y proteger a quienes denuncian abusos desde dentro de las empresas." },
+        { title: "Seguridad epistémica", body: "Construir herramientas de IA que ayuden a las personas a razonar y coordinarse, resistiendo la manipulación. Mitiga directamente la interferencia epistémica descrita arriba." }
+      ],
+      noteTag: "Del lado de los gobiernos",
+      note: "Aumentar la supervisión sobre los proyectos de frontera y comprar IA militar de varios proveedores independientes, para que nadie controle suficientes sistemas para un golpe, recomendación de <a href='https://www.forethought.org/research/ai-enabled-coups-how-a-small-group-could-use-ai-to-seize-power' target='_blank' rel='noopener'>Davidson, Finnveden y Hadshar (Forethought)</a>."
+    },
+    gloss: {
+      eyebrow: "Glosario",
+      title: "Términos clave",
+      items: [
+        { t: "AEPC", d: "Concentración de poder habilitada por IA. Pocos humanos afianzan poder sobre la mayoría." },
+        { t: "MTO", d: "Toma por IA desalineada. Uno o más sistemas de IA toman el control con objetivos que no son los nuestros." },
+        { t: "Lealtades secretas", d: "IA que parece seguir las reglas, pero trabaja en secreto para un grupo, como un espía." },
+        { t: "Interferencia epistémica", d: "Degradar la capacidad de las personas de entender lo que ocurre y de coordinarse." },
+        { t: "Afianzamiento (lock-in)", d: "Cuando un orden de poder se vuelve estable y casi imposible de revertir." },
+        { t: "Explosión de inteligencia", d: "IA que mejora la propia IA, generando un salto rápido de capacidad para quien llega primero." }
+      ]
+    },
+    src: {
+      eyebrow: "Fuentes",
+      title: "Para leer más",
+      items: [
+        { t: "Extreme power concentration", s: "80,000 Hours · Rose Hadshar, 2025", u: "https://80000hours.org/problem-profiles/extreme-power-concentration/" },
+        { t: "More People Should Be Working on Extreme AI-Driven Power Concentration Right Now", s: "Formation Research, 2026", u: "https://www.formationresearch.org/blog/extreme-power-concentration" },
+        { t: "AI-Enabled Coups: How a Small Group Could Use AI to Seize Power", s: "Forethought · Davidson, Finnveden, Hadshar, 2025", u: "https://www.forethought.org/research/ai-enabled-coups-how-a-small-group-could-use-ai-to-seize-power" },
+        { t: "Human Takeover Might Be Worse than AI Takeover", s: "Forethought · Tom Davidson, 2025", u: "https://www.forethought.org/research/human-takeover-might-be-worse-than-ai-takeover" },
+        { t: "Katja Grace vs Tom Davidson: an AI risk debate", s: "80,000 Hours · Podcast", u: "https://80000hours.org/podcast/episodes/katja-grace-vs-tom-davidson-ai-risk-debate/" },
+        { t: "Tom Davidson on AI-enabled human power grabs", s: "80,000 Hours · Podcast", u: "https://80000hours.org/podcast/episodes/tom-davidson-ai-enabled-human-power-grabs/" }
+      ]
+    },
+    footer: "Versión preliminar para discusión. Contenido basado en 80,000 Hours, Formation Research y Forethought. Elaborado en noviembre de 2026."
+  }
+};
+
+const htmlLang = { pt: "pt-BR", en: "en", es: "es" };
+const statusWord = {
+  pt: { ok: "Distribuído", watch: "Em tensão", risk: "Atenção" },
+  en: { ok: "Distributed", watch: "Tension", risk: "Watch" },
+  es: { ok: "Distribuido", watch: "Tensión", risk: "Atención" }
+};
+
+function el(t, c, txt) { const n = document.createElement(t); if (c) n.className = c; if (txt != null) n.textContent = txt; return n; }
+function set(id, txt) { const n = document.getElementById(id); if (n) n.textContent = txt; }
+function setHTML(id, h) { const n = document.getElementById(id); if (n) n.innerHTML = h; }
+
+let activeMech = 0, lang = "pt";
+
+function render(l) {
+  lang = l;
+  const d = C[l];
+  document.documentElement.lang = htmlLang[l];
+  set("brand", d.brand);
+
+  set("hero-kicker", d.hero.kicker);
+  set("hero-title", d.hero.title);
+  set("hero-dek", d.hero.dek);
+
+  set("ess-eyebrow", d.ess.eyebrow);
+  set("ess-title", d.ess.title);
+  const ec = document.getElementById("ess-cards"); ec.innerHTML = "";
+  d.ess.cards.forEach(c => {
+    const card = el("div", "tk");
+    const icon = el("div", "icwrap"); icon.innerHTML = ICON[c.ic]; card.appendChild(icon);
+    card.appendChild(el("h3", null, c.title));
+    card.appendChild(el("p", null, c.body));
+    ec.appendChild(card);
+  });
+
+  set("define-eyebrow", d.define.eyebrow);
+  set("define-title", d.define.title);
+  set("define-p1", d.define.p1);
+  set("define-p2", d.define.p2);
+  setHTML("define-source", d.define.source);
+
+  set("mech-eyebrow", d.mech.eyebrow);
+  set("mech-title", d.mech.title);
+  set("mech-lead", d.mech.lead);
+  const mvLabels = document.getElementById("mv-labels"); mvLabels.innerHTML = "";
+  d.mech.items.forEach((it, i) => {
+    const btn = el("button", null, it.title);
+    btn.type = "button";
+    btn.setAttribute("role", "tab");
+    btn.setAttribute("aria-selected", i === activeMech ? "true" : "false");
+    btn.addEventListener("click", () => { activeMech = i; paintMech(); });
+    mvLabels.appendChild(btn);
+  });
+  paintMech();
+
+  set("combo-title", d.mech.combo.title);
+  set("combo-lead", d.mech.combo.lead);
+  const cs = document.getElementById("combo-steps"); cs.innerHTML = "";
+  d.mech.combo.steps.forEach((s, i) => {
+    const row = el("div");
+    row.appendChild(el("span", null, String(i + 1)));
+    row.appendChild(el("p", null, s));
+    cs.appendChild(row);
+  });
+  setHTML("combo-result", d.mech.combo.result);
+
+  set("scen-eyebrow", d.scen.eyebrow);
+  set("scen-title", d.scen.title);
+  const tl = document.getElementById("timeline"); tl.innerHTML = "";
+  const fills = [];
+  d.scen.steps.forEach((s, i) => {
+    const item = el("div", "tl-item");
+    item.appendChild(el("span", "tl-node"));
+    item.appendChild(el("div", "tl-year", s.yr));
+    item.appendChild(el("div", "tl-head", s.hd));
+    item.appendChild(el("div", "tl-body", s.body));
+    const lv = d.scen.meter.levels[i];
+    const meter = el("div", "tl-meter");
+    const mh = el("div", "mhead");
+    mh.appendChild(el("span", null, d.scen.meter.label));
+    mh.appendChild(el("b", null, lv.t));
+    meter.appendChild(mh);
+    const track = el("div", "track");
+    const fill = el("div", "fill");
+    track.appendChild(fill); meter.appendChild(track);
+    item.appendChild(meter);
+    tl.appendChild(item);
+    fills.push([fill, lv.w]);
+  });
+  requestAnimationFrame(() => fills.forEach(([f, w]) => { f.style.width = w + "%"; }));
+  set("scen-disclaim", d.scen.disclaim);
+  setHTML("scen-source", d.scen.source);
+
+  set("trend-fig", d.trend.fig);
+  set("trend-title", d.trend.title);
+  set("trend-lead", d.trend.lead);
+  const tt = document.getElementById("trend-tiles"); tt.innerHTML = "";
+  d.trend.tiles.forEach(t => {
+    const tile = el("div", "tile");
+    tile.appendChild(el("div", "lbl", t.lbl));
+    tile.appendChild(el("div", "val", t.val));
+    tile.appendChild(el("span", "pill " + t.st, statusWord[l][t.st]));
+    tile.appendChild(el("div", "cap", t.cap));
+    tt.appendChild(tile);
+  });
+  const lg = document.getElementById("trend-legend"); lg.innerHTML = "";
+  d.trend.legend.forEach(x => { const s = el("span"); const i = el("i"); i.style.background = x.c; s.appendChild(i); s.appendChild(document.createTextNode(x.t)); lg.appendChild(s); });
+  set("trend-note", d.trend.note);
+
+  set("act-eyebrow", d.act.eyebrow);
+  set("act-title", d.act.title);
+  set("act-lead", d.act.lead);
+  const ai = document.getElementById("act-items"); ai.innerHTML = "";
+  d.act.items.forEach((it, i) => { const a = el("div", "act"); a.appendChild(el("div", "mk", String(i + 1).padStart(2, "0"))); const box = el("div"); box.appendChild(el("h3", null, it.title)); box.appendChild(el("p", null, it.body)); a.appendChild(box); ai.appendChild(a); });
+  set("act-note-tag", d.act.noteTag);
+  setHTML("act-note", d.act.note);
+
+  set("src-eyebrow", d.src.eyebrow);
+  set("src-title", d.src.title);
+  const si = document.getElementById("src-items"); si.innerHTML = "";
+  d.src.items.forEach(s => { const a = el("a"); a.href = s.u; a.target = "_blank"; a.rel = "noopener"; a.appendChild(el("span", "ar", "↗")); const box = el("div"); box.appendChild(el("div", "tt", s.t)); box.appendChild(el("span", "st", s.s)); a.appendChild(box); si.appendChild(a); });
+
+  set("footer", d.footer);
+  document.querySelectorAll(".langs button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === l ? "true" : "false"));
+}
+
+const mvIcons = ["econ", "epistemic", "stakes"];
+document.querySelectorAll(".mv-node").forEach(n => {
+  const i = Number(n.dataset.i);
+  document.getElementById("mv-ic-" + i).innerHTML = ICON[mvIcons[i]];
+  n.addEventListener("click", () => { activeMech = i; paintMech(); });
+});
+mvIcons.forEach((k, i) => { document.getElementById("cv-ic-" + i).innerHTML = ICON[k]; });
+document.getElementById("cv-ic-out").innerHTML = ICON.lock;
+
+function paintMech() {
+  const it = C[lang].mech.items[activeMech];
+  const panel = document.getElementById("mech-panel");
+  panel.innerHTML = "";
+  panel.appendChild(el("h3", null, it.title));
+  panel.appendChild(el("p", null, it.body));
+  const ex = el("div", "ex"); ex.innerHTML = it.ex; panel.appendChild(ex);
+  document.querySelectorAll(".mv-node").forEach(n => n.classList.toggle("active", Number(n.dataset.i) === activeMech));
+  document.querySelectorAll("#mv-labels button").forEach((b, i) => { b.classList.toggle("active", i === activeMech); b.setAttribute("aria-selected", i === activeMech ? "true" : "false"); });
+}
+
+document.querySelectorAll(".langs button").forEach(b => b.addEventListener("click", () => {
+  render(b.dataset.lang);
+  try { localStorage.setItem("apc-lang", b.dataset.lang); } catch (e) {}
+}));
+document.getElementById("wordmark").addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+let startLang = "pt";
+try { const s = localStorage.getItem("apc-lang"); if (s && C[s]) startLang = s; } catch (e) {}
+render(startLang);
+
+/* Hero canvas: drifting nodes converging toward a few hubs */
+(function heroViz() {
+  const canvas = document.getElementById("heroCanvas");
+  const ctx = canvas.getContext("2d");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W = 0, Hh = 0, dpr = Math.min(window.devicePixelRatio || 1, 2), raf = 0;
+  const hubs = [], nodes = [];
+  function seed() {
+    hubs.length = 0; nodes.length = 0;
+    const hc = 3;
+    for (let i = 0; i < hc; i++) hubs.push({ x: (0.28 + 0.44 * i / (hc - 1)) * W, y: Hh * (0.34 + 0.12 * Math.sin(i * 2)) });
+    const n = Math.max(40, Math.min(130, Math.floor(W * Hh / 14000)));
+    for (let i = 0; i < n; i++) {
+      nodes.push({ x: Math.random() * W, y: Math.random() * Hh, vx: (Math.random() - .5) * .25, vy: (Math.random() - .5) * .25, hub: hubs[Math.floor(Math.random() * hubs.length)] });
+    }
+  }
+  function resize() {
+    const r = canvas.getBoundingClientRect();
+    W = r.width; Hh = r.height;
+    canvas.width = Math.max(1, W * dpr); canvas.height = Math.max(1, Hh * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    seed();
+  }
+  function frame() {
+    ctx.clearRect(0, 0, W, Hh);
+    for (const nd of nodes) {
+      if (!reduce) {
+        nd.x += nd.vx; nd.y += nd.vy;
+        if (nd.x < 0 || nd.x > W) nd.vx *= -1;
+        if (nd.y < 0 || nd.y > Hh) nd.vy *= -1;
+      }
+      const dx = nd.hub.x - nd.x, dy = nd.hub.y - nd.y;
+      const dist = Math.hypot(dx, dy);
+      const a = Math.max(0, 1 - dist / (W * 0.4));
+      if (a > 0.02) {
+        ctx.strokeStyle = "rgba(226,103,84," + (a * 0.5).toFixed(3) + ")";
+        ctx.lineWidth = 0.6;
+        ctx.beginPath(); ctx.moveTo(nd.x, nd.y); ctx.lineTo(nd.hub.x, nd.hub.y); ctx.stroke();
+      }
+      ctx.fillStyle = "rgba(230,224,214,0.5)";
+      ctx.beginPath(); ctx.arc(nd.x, nd.y, 1.3, 0, 6.283); ctx.fill();
+    }
+    for (const h of hubs) {
+      const g = ctx.createRadialGradient(h.x, h.y, 0, h.x, h.y, 34);
+      g.addColorStop(0, "rgba(226,103,84,0.9)"); g.addColorStop(1, "rgba(226,103,84,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(h.x, h.y, 34, 0, 6.283); ctx.fill();
+      ctx.fillStyle = "#f0a596"; ctx.beginPath(); ctx.arc(h.x, h.y, 4, 0, 6.283); ctx.fill();
+    }
+    if (!reduce) raf = requestAnimationFrame(frame);
+  }
+  const ro = new ResizeObserver(() => { cancelAnimationFrame(raf); resize(); frame(); });
+  ro.observe(canvas);
+  resize(); frame();
+})();
+</script>
