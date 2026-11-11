@@ -34,7 +34,9 @@ python3 -m http.server 8000
 # depois acesse http://localhost:8000
 ```
 
-Também pode ser publicado no GitHub Pages: em **Settings → Pages**, selecione a branch `main` e a raiz (`/`) como fonte. O `index.html` já está na raiz do repositório.
+## Deploy
+
+Publicado via **Vercel**, direto deste repositório: basta importar o repo em [vercel.com/new](https://vercel.com/new) e aceitar as configurações padrão (é um site estático, sem build step; `index.html` já está na raiz). O `vercel.json` incluído apenas ativa URLs limpas. Qualquer push na branch `main` gera um novo deploy automaticamente.
 
 ## Idiomas
 
