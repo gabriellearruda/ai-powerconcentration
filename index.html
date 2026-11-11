@@ -186,8 +186,10 @@
   .cv-out .cv-ic svg { width: 24px; height: 24px; }
   .cv-arrow { fill: none; stroke: color-mix(in srgb, var(--accent) 45%, var(--line)); stroke-width: 2; }
   .combo-steps { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
-  .combo-steps div { display: flex; gap: 12px; align-items: baseline; font: 400 15px/1.55 "Inter", sans-serif; color: var(--muted); }
-  .combo-steps span { flex: none; width: 20px; height: 20px; border-radius: 50%; background: color-mix(in srgb, var(--accent-2) 16%, transparent); color: var(--accent-2); font: 800 11px/20px "Inter", sans-serif; text-align: center; }
+  .combo-steps div { display: flex; gap: 14px; align-items: center; font: 400 15px/1.55 "Inter", sans-serif; color: var(--muted); }
+  .combo-steps .cs-ic { flex: none; width: 36px; height: 36px; border-radius: 10px; background: color-mix(in srgb, var(--accent-2) 14%, transparent); color: var(--accent-2); display: flex; align-items: center; justify-content: center; }
+  .combo-steps .cs-ic svg { width: 19px; height: 19px; }
+  .combo-steps .cs-label { font: 700 10.5px/1.2 "Inter", sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--ink); display: block; margin-bottom: 2px; }
   .combo-result { margin-top: 18px; background: color-mix(in srgb, var(--accent) 8%, var(--surface)); border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line)); border-radius: 13px; padding: 18px 20px; font: 500 15.5px/1.6 "Inter", sans-serif; color: var(--ink); }
   .combo-result b { color: var(--accent); }
 
@@ -471,6 +473,9 @@ const ICON = {
   econ: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 7-8"/><path d="M15 6h6v6"/></svg>',
   epistemic: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12S6 6.5 12 6.5 21.5 12 21.5 12 18 17.5 12 17.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/></svg>',
   lock: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/><path d="M12 15v3"/></svg>',
+  robot: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="9" width="14" height="10" rx="2.5"/><circle cx="9.5" cy="14" r="1" fill="currentColor" stroke="none"/><circle cx="14.5" cy="14" r="1" fill="currentColor" stroke="none"/><path d="M12 9V5"/><circle cx="12" cy="3.6" r="1.1"/><path d="M8 19v1.5M16 19v1.5"/></svg>',
+  funnel: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16l-6.5 8v6l-3 1.5v-7.5z"/><path d="M7.5 9h9" opacity=".5"/></svg>',
+  chain: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="5" cy="5.5" r="1.8"/><circle cx="12" cy="5.5" r="1.8"/><circle cx="19" cy="5.5" r="1.8"/><circle cx="12" cy="18.5" r="2.3" fill="currentColor" stroke="none"/><path d="M5 7.3 11 17M12 7.3v9M19 7.3 13 17"/></svg>',
   singular: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="17.5" r="3" fill="currentColor" stroke="none"/><circle cx="5" cy="5" r="1.7"/><circle cx="12" cy="4" r="1.7"/><circle cx="19" cy="5" r="1.7"/><path d="M5.9 6.4 10.3 14.8M12 5.7V14.5M18.1 6.4 13.7 14.8"/></svg>',
   secret: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 12S6 6.5 12 6.5c1.9 0 3.6.6 5 1.4M21.5 12S18 17.5 12 17.5c-1.9 0-3.6-.6-5-1.4"/><circle cx="12" cy="12" r="2.3"/><path d="M3.5 3.5l17 17"/></svg>',
   access: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="4.2"/><path d="M11 11l8.5 8.5M16 16l2-2M19 19l2-2"/></svg>'
@@ -509,6 +514,7 @@ const C = {
       combo: {
         title: "Quando as três se combinam",
         lead: "Nenhuma das três força sozinha, e os pesquisadores divergem sobre qual pesa mais. O cenário que mais preocupa é quando elas se somam.",
+        labels: ["Automação do trabalho", "Controle da informação", "Cadeia de comando"],
         steps: [
           "Forças econômicas dão a um ator riqueza e capacidade produtiva maiores que as de países inteiros.",
           "Interferência epistêmica impede que a maioria perceba o que está acontecendo ou se coordene para reagir.",
@@ -640,6 +646,7 @@ const C = {
       combo: {
         title: "When the three combine",
         lead: "No single force is enough on its own, and experts disagree on which matters most. The scenario that worries people most is when they add up.",
+        labels: ["Automating labour", "Controlling information", "Chain of command"],
         steps: [
           "Economic forces give one actor wealth and productive capacity larger than entire countries.",
           "Epistemic interference stops most people from noticing what is happening or coordinating to respond.",
@@ -771,6 +778,7 @@ const C = {
       combo: {
         title: "Cuando las tres se combinan",
         lead: "Ninguna de las tres basta por sí sola, y los expertos discrepan sobre cuál pesa más. El escenario que más preocupa es cuando se suman.",
+        labels: ["Automatización del trabajo", "Control de la información", "Cadena de mando"],
         steps: [
           "Las fuerzas económicas dan a un actor riqueza y capacidad productiva mayores que países enteros.",
           "La interferencia epistémica impide que la mayoría perciba lo que ocurre o se coordine para reaccionar.",
@@ -927,11 +935,16 @@ function render(l) {
 
   set("combo-title", d.mech.combo.title);
   set("combo-lead", d.mech.combo.lead);
+  const comboIcons = ["robot", "funnel", "chain"];
   const cs = document.getElementById("combo-steps"); cs.innerHTML = "";
   d.mech.combo.steps.forEach((s, i) => {
     const row = el("div");
-    row.appendChild(el("span", null, String(i + 1)));
-    row.appendChild(el("p", null, s));
+    const icwrap = el("div", "cs-ic"); icwrap.innerHTML = ICON[comboIcons[i]];
+    row.appendChild(icwrap);
+    const box = el("div");
+    box.appendChild(el("span", "cs-label", d.mech.combo.labels[i]));
+    box.appendChild(el("p", null, s));
+    row.appendChild(box);
     cs.appendChild(row);
   });
   setHTML("combo-result", d.mech.combo.result);
@@ -1002,7 +1015,7 @@ document.querySelectorAll(".mv-node").forEach(n => {
   document.getElementById("mv-ic-" + i).innerHTML = ICON[mvIcons[i]];
   n.addEventListener("click", () => { activeMech = i; paintMech(); });
 });
-mvIcons.forEach((k, i) => { document.getElementById("cv-ic-" + i).innerHTML = ICON[k]; });
+["robot", "funnel", "chain"].forEach((k, i) => { document.getElementById("cv-ic-" + i).innerHTML = ICON[k]; });
 document.getElementById("cv-ic-out").innerHTML = ICON.lock;
 
 function paintMech() {
